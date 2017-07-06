@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>2.25绘制圆弧</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h2>画圆弧例子</h2>
+    <canvas id="can" width="400" height="300"></canvas>
+</body>
+<script>
+    var ctx = can.getContext("2d");
+    var width = can.width,
+        height = can.height;
+    //计算圆心
+    var xOff = width * 0.5,
+        yOff = height * 0.5;
+    for (var i = 1; i < 8; i++) {
+        //以最里面矩形为中心，画同心圆，半径依次增加15
+        ctx.beginPath();//用户清除之前的路径。如果不清除的话，那么每次绘制的时候会把之前的路径又绘制，这样会降低绘制的效率
+        ctx.arc(xOff, yOff, i * 15, 0, 2 * Math.PI, true);
+        ctx.closePath();
+        ctx.stroke();
+    }
+</script>
+</html>
