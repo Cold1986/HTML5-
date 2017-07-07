@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h2>图片动画</h2>
+    <img id="img1" src="imgs/Mario.jpg" />
+    <input type="button" id="btnGo" value="开始" /><br />
+    <canvas id="c1" width="320" height="200"></canvas><br />
+</body>
+<script>
+    var img1 = document.getElementById("img1");
+    //是否开始动画
+    var isAnimStart = false, animHandle = null;//动画句柄
+    //保存每帧动画起始坐标，本例图片共有3帧
+    var frames = [
+        [0, 0],
+        [100, 0],
+        [200, 0]
+    ];
+
+    //定义每帧图像的宽度和高度
+    var fWidth = 60, fHeight = 100;
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    //开始
+    function init() {
+        //注册Go 按钮事件
+        $("btnGo").onclick = function () {
+            //如果没有开始动画，则开始动画
+            if (!isAnimStart) {
+                //获取canvas 上下文
+                var ctx = $("c1").getContext("2d");
+                //设置当前帧序号
+                var fIndex = 0;
+                //找到canvas的中点
+                var cX = 160, cY = 100;
+                animHandle = setInterval(function () {
+                    //先清空画布
+                    ctx.clearRect(0, 0, 320, 200);
+                    //绘制当前帧
+                    //img1:规定要使用的图像、画布或视频。
+                    //sx:可选。开始剪切的 x 坐标位置。
+                    //sy:可选。开始剪切的 y 坐标位置。
+                    //swidth:可选。被剪切图像的宽度。
+                    //sheight:	可选。被剪切图像的高度。
+                    //x:在画布上放置图像的 x 坐标位置。
+                    //y:在画布上放置图像的 y 坐标位置。
+                    //width:可选。要使用的图像的宽度。（伸展或缩小图像）
+                    //height:可选。要使用的图像的高度。（伸展或缩小图像）
+                    ctx.drawImage(img1, frames[fIndex][0], frames[fIndex][1], fWidth, fHeight, cX - 64, cY - 64, fWidth / 2, fHeight / 2);
+                    //计算下一帧
+                    fIndex++;
+                    if (fIndex >= frames.length) {
+                        fIndex = 0;
+                    }
+                }, 100)
+                $("btnGo").value = "停止";
+                isAnimStart = true;
+            }
+            else {
+                $("btnGo").value = "开始";
+                clearInterval(animHandle);
+                isAnimStart = false;
+            }
+        }
+    }
+    init();
+</script>
+</html>
